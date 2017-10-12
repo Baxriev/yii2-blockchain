@@ -2,133 +2,127 @@
 
 namespace backend\controllers;
 
+use backend\models\Transaction;
+use phpDocumentor\Reflection\Types\Null_;
 use Yii;
 use backend\models\Block;
+use yii\base\Security;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
+use yii\helpers\ArrayHelper;
+use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 
 /**
  * BlockController implements the CRUD actions for Block model.
  */
 class BlockController extends Controller
 {
-    /**
-     * @inheritdoc
-     */
-    public function behaviors()
-    {
-        return [
-	        'access' => [
-		        'class' => AccessControl::className(),
-		        'rules' => [
-			        [
-				        'allow' => true,
-				        'roles' => ['@'],
-			        ],
-		        ],
-	        ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'delete' => ['POST'],
-                ],
-            ],
-        ];
-    }
+	/**
+	 * @inheritdoc
+	 */
+	public function behaviors()
+	{
+		return [
+			'access' => [
+				'class' => AccessControl::className(),
+				'rules' => [
+					[
+						'allow' => true,
+						'roles' => ['@'],
+					],
+				],
+			],
+			'verbs' => [
+				'class' => VerbFilter::className(),
+				'actions' => [
+					'delete' => ['POST'],
+				],
+			],
+		];
+	}
 
-    /**
-     * Lists all Block models.
-     * @return mixed
-     */
-    public function actionIndex()
-    {
-        $dataProvider = new ActiveDataProvider([
-            'query' => Block::find(),
-        ]);
+	/**
+	 * Lists all Block models.
+	 * @return mixed
+	 */
+	public function actionIndex()
+	{
+		$dataProvider = new ActiveDataProvider([
+			'query' => Block::find(),
+		]);
 
-        return $this->render('index', [
-            'dataProvider' => $dataProvider,
-        ]);
-    }
+		return $this->render('index', [
+			'dataProvider' => $dataProvider,
+		]);
+	}
 
-    /**
-     * Displays a single Block model.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
+	/**
+	 * Creates a new Block model.
+	 * If creation is successful, the browser will be redirected to the 'view' page.
+	 * @return mixed
+	 */
+	public function actionMine()
+	{
+		# We run the proof of work algorithm to get the next proof...
+		$lastBlock = Block::find()->orderBy(['id'=> SORT_DESC])->one(); //todo toArray
+		//$lastBlock->transactions = Transaction::findAll(['block_id' => $lastBlock->id]);
+		$lastProof = $lastBlock->proof;
 
-    /**
-     * Creates a new Block model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new Block();
+		$proof = $this->proofOfWork($lastProof);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
-        }
-    }
+		# We must receive a reward for finding the proof.
+		# The sender is "0" to signify that this node has mined a new coin.
+		($profit = new Transaction([
+			'sender' => 0,
+			'recipient' => Yii::$app->user->id,
+			'amount' => 1
+		]))->save();
 
-    /**
-     * Updates an existing Block model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
+		# Forge the new Block by adding it to the chain
+		($newBlock = new Block([
+			'proof' => $proof,
+			'previous_hash' => $this->hashBlock($lastBlock),
+		]))->save();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
-        }
-    }
+		Transaction::updateAll(['block_id' => $newBlock->id], ['block_id' => null]);
 
-    /**
-     * Deletes an existing Block model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
+		$response = [
+			'message' => "New Block Forged",
+			'block' => $newBlock,
+		];
 
-        return $this->redirect(['index']);
-    }
+		$resp = Yii::$app->response;
+		$resp->format = Response::FORMAT_JSON;
+		$resp->headers->set('Access-Control-Allow-Origin', '*');
 
-    /**
-     * Finds the Block model based on its primary key value.
-     * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $id
-     * @return Block the loaded model
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    protected function findModel($id)
-    {
-        if (($model = Block::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
+		return $response;
+	}
+
+	protected function hashBlock(Block $block) :string
+	{
+		$block = ArrayHelper::toArray($block);
+		ksort($block);
+		$blockString = json_encode($block);
+		return sha1($blockString);
+	}
+
+	protected function proofOfWork(int $lastProof) :int
+	{
+		$proof = 0;
+		while (!$this->validProof($lastProof, $proof)){
+			$proof++;
+		}
+		//print_r([$lastProof, $proof, sha1($lastProof . $proof)]);
+		return $proof;
+	}
+
+	private function validProof(int $lastProof, int $proof) :bool
+	{
+		$guessHash = sha1($lastProof . $proof);
+		return substr($guessHash, 0, 5) == "00000";
+	}
 }

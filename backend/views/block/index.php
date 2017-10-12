@@ -6,13 +6,10 @@ use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Blocks');
+$this->title = Yii::t('app', 'Цепь');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="block-index">
-
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <p>
         <?= Html::a(Yii::t('app', 'Create Block'), ['create'], ['class' => 'btn btn-success']) ?>
     </p>

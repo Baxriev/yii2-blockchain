@@ -33,10 +33,9 @@ class Transaction extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['sender', 'recipient', 'amount', 'block_id'], 'required'],
-            [['sender', 'recipient', 'block_id'], 'integer'],
+            [['sender', 'recipient', 'amount'], 'required'],
+            [['sender', 'recipient'], 'integer'],
             [['amount'], 'number'],
-            [['block_id'], 'exist', 'skipOnError' => true, 'targetClass' => Block::className(), 'targetAttribute' => ['block_id' => 'id']],
             [['recipient'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['recipient' => 'id']],
             [['sender'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['sender' => 'id']],
         ];

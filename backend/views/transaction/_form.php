@@ -1,5 +1,6 @@
 <?php
 
+use backend\models\Block;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -17,8 +18,6 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'recipient')->textInput() ?>
 
     <?= $form->field($model, 'amount')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'block_id')->textInput() ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? Yii::t('app', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
