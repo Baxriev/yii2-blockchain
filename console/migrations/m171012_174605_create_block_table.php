@@ -18,6 +18,7 @@ class m171012_174605_create_block_table extends Migration
             'proof' => $this->integer()->notNull()->unsigned()->comment('Доказательство'),
             'previous_hash' => $this->string(255)->notNull()->comment('Хеш предыдущего блока'),
         ]);
+	    $this->addCommentOnTable('block', 'Цепь');
     }
 
     /**

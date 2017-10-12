@@ -2,8 +2,10 @@
 
 /* @var $this \yii\web\View */
 /* @var $content string */
+/* @var User $userModel */
 
 use backend\assets\AppAsset;
+use common\models\User;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
@@ -12,6 +14,7 @@ use common\widgets\Alert;
 
 AppAsset::register($this);
 ?>
+
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
@@ -29,22 +32,26 @@ AppAsset::register($this);
 <div class="wrap">
     <?php
     NavBar::begin([
-        'brandLabel' => 'My Company',
+        'brandLabel' => Yii::$app->name,
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
-    $menuItems = [
-        ['label' => 'Home', 'url' => ['/site/index']],
-    ];
+    $menuItems = [];
     if (Yii::$app->user->isGuest) {
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
     } else {
-        $menuItems[] = '<li>'
+	    $menuItems[] = ['label' => 'Цепь', 'url' => ['/block']];
+        $menuItems[] = ['label' => 'Транзакции', 'url' => ['/transaction']];
+	    $userModel = Yii::$app->user->identity;
+	    if ($userModel->status == User::STATUS_ADMIN) {
+		    $menuItems[] = ['label' => 'Узлы', 'url' => ['/user']];
+	    }
+	    $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post')
             . Html::submitButton(
-                'Logout (' . Yii::$app->user->identity->username . ')',
+                'Logout (' . $userModel->username . ')',
                 ['class' => 'btn btn-link logout']
             )
             . Html::endForm()
@@ -68,7 +75,7 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+        <p class="pull-left">&copy; <?= Yii::$app->name ?> <?= date('Y') ?></p>
 
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>

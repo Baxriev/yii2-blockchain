@@ -24,8 +24,9 @@ class m171012_174605_create_transaction_table extends Migration
             'amount' => $this->decimal(13,2)->notNull()->comment('Сумма'),
             'block_id' => $this->integer()->unsigned()->notNull(),
         ]);
+	    $this->addCommentOnTable('transaction', 'Транзакции');
 
-        // creates index for column `sender`
+	    // creates index for column `sender`
         $this->createIndex(
             'idx-transaction-sender',
             'transaction',

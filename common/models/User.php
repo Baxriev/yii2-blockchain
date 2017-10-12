@@ -24,7 +24,10 @@ use yii\web\IdentityInterface;
 class User extends ActiveRecord implements IdentityInterface
 {
     const STATUS_DELETED = 0;
-    const STATUS_ACTIVE = 10;
+    const STATUS_DISACTIVE = 1;
+    const STATUS_ACTIVE = 2;
+    //const STATUS_RESERVE = 4;
+    const STATUS_ADMIN = 7;
 
 
     /**
@@ -52,7 +55,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+            ['status', 'in', 'range' => [0,1,2,4,7]],
         ];
     }
 
@@ -61,7 +64,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findIdentity($id)
     {
-        return static::findOne(['id' => $id, 'status' => self::STATUS_ACTIVE]);
+	    return static::find()->where(['id' => $id])->andWhere(['>', 'status', self::STATUS_DELETED])->one();
     }
 
     /**
@@ -80,7 +83,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findByUsername($username)
     {
-        return static::findOne(['username' => $username, 'status' => self::STATUS_ACTIVE]);
+        return static::find()->where(['username' => $username])->andWhere(['>', 'status', self::STATUS_DELETED])->one();
     }
 
     /**
