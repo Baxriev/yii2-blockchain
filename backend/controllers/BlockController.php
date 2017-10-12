@@ -107,7 +107,7 @@ class BlockController extends Controller
 		$block = ArrayHelper::toArray($block);
 		ksort($block);
 		$blockString = json_encode($block);
-		return sha1($blockString);
+		return md5($blockString);
 	}
 
 	protected function proofOfWork(int $lastProof) :int
@@ -116,13 +116,13 @@ class BlockController extends Controller
 		while (!$this->validProof($lastProof, $proof)){
 			$proof++;
 		}
-		//print_r([$lastProof, $proof, sha1($lastProof . $proof)]);
+		print_r([$lastProof, $proof, substr(md5($lastProof . $proof), 2, 5), md5($lastProof . $proof)]);
 		return $proof;
 	}
 
 	private function validProof(int $lastProof, int $proof) :bool
 	{
-		$guessHash = sha1($lastProof . $proof);
-		return substr($guessHash, 0, 5) == "00000";
+		$guessHash = md5($lastProof . $proof);
+		return substr($guessHash, 2, 5) === "00000";
 	}
 }
