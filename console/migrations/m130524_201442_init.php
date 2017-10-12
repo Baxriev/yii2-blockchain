@@ -10,6 +10,7 @@ class m130524_201442_init extends Migration
         if ($this->db->driverName === 'mysql') {
             // http://stackoverflow.com/questions/766809/whats-the-difference-between-utf8-general-ci-and-utf8-unicode-ci
             $tableOptions = 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB';
+            $this->execute('SET NAMES utf8;');
         }
 
         $this->createTable('{{%user}}', [
