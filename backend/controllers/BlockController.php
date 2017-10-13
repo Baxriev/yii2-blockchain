@@ -104,9 +104,13 @@ class BlockController extends Controller
 
 	protected function hashBlock(Block $block) :string
 	{
+		var_dump($block);
 		$block = ArrayHelper::toArray($block);
+		var_dump($block);
 		ksort($block);
+		var_dump($block);
 		$blockString = json_encode($block);
+		var_dump($blockString);
 		return md5($blockString);
 	}
 
@@ -116,7 +120,7 @@ class BlockController extends Controller
 		while (!$this->validProof($lastProof, $proof)){
 			$proof++;
 		}
-		print_r([$lastProof, $proof, substr(md5($lastProof . $proof), 2, 5), md5($lastProof . $proof)]);
+		//print_r([$lastProof, $proof, substr(md5($lastProof . $proof), 2, 5), md5($lastProof . $proof)]);
 		return $proof;
 	}
 

@@ -14,9 +14,9 @@ class m171012_174605_create_block_table extends Migration
     {
         $this->createTable('block', [
             'id' => $this->primaryKey()->notNull()->unsigned(),
-            'timestamp' => $this->timestamp()->notNull()->comment('Время'),//->defaultExpression('CURRENT'),
-            'proof' => $this->integer()->notNull()->unsigned()->comment('Доказательство'),
             'previous_hash' => $this->string(255)->notNull()->comment('Хеш предыдущего блока'),
+            'proof' => $this->integer()->notNull()->unsigned()->comment('Доказательство'),
+            'timestamp' => $this->timestamp()->notNull()->comment('Время'),//->defaultExpression('CURRENT'),
         ]);
 
 	    $this->addCommentOnTable('block', 'Цепь');
