@@ -31,20 +31,21 @@ AppAsset::register($this);
 
 <div class="wrap">
     <?php
+    $user = Yii::$app->user;
     NavBar::begin([
-        'brandLabel' => Yii::$app->name,
+        'brandLabel' => Yii::$app->name . ($user->isGuest ? '' : " ({$user->identity->balance})"),
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
     $menuItems = [];
-    if (Yii::$app->user->isGuest) {
+    if ($user->isGuest) {
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
     } else {
 	    $menuItems[] = ['label' => 'Цепь', 'url' => ['/block']];
         $menuItems[] = ['label' => 'Транзакции', 'url' => ['/transaction']];
-	    $userModel = Yii::$app->user->identity;
+	    $userModel = $user->identity;
 	    if ($userModel->status == User::STATUS_ADMIN) {
 		    $menuItems[] = ['label' => 'Узлы', 'url' => ['/user']];
 	    }

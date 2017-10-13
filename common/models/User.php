@@ -1,6 +1,7 @@
 <?php
 namespace common\models;
 
+use backend\models\Transaction;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
@@ -190,5 +191,27 @@ class User extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getTransactions()
+	{
+		return $this->hasMany(Transaction::className(), ['recipient' => 'id']);
+	}
+	/**
+	 * @return \yii\db\ActiveQuery
+	 */
+	public function getTransactions0()
+	{
+		return $this->hasMany(Transaction::className(), ['sender' => 'id']);
+	}
+
+	/**
+	 * @return float
+	 */
+	public function getBalance(){
+    	return $this->getTransactions()->sum('amount')?:0 - $this->getTransactions0()->sum('amount')?:0;
     }
 }
