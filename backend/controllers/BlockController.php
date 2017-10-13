@@ -3,16 +3,11 @@
 namespace backend\controllers;
 
 use backend\models\Transaction;
-use phpDocumentor\Reflection\Types\Null_;
 use Yii;
 use backend\models\Block;
-use yii\base\Security;
 use yii\data\ActiveDataProvider;
 use yii\filters\AccessControl;
-use yii\helpers\ArrayHelper;
-use yii\helpers\Json;
 use yii\web\Controller;
-use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\Response;
 
@@ -70,7 +65,7 @@ class BlockController extends Controller
 		# We run the proof of work algorithm to get the next proof...
 		$lastBlock = Block::find()->orderBy(['id'=> SORT_DESC])->with('transactions')->asArray()->one(); //todo toArray
 		//$lastBlock->transactions = Transaction::findAll(['block_id' => $lastBlock->id]);
-		$lastProof = (int) $lastBlock['proof'];
+		$lastProof = $lastBlock['proof'];
 
 		$proof = $this->proofOfWork($lastProof);
 
@@ -127,7 +122,7 @@ class BlockController extends Controller
 	 *
 	 * @return int
 	 */
-	protected function proofOfWork(int $lastProof)
+	protected function proofOfWork($lastProof)
 	{
 		$proof = 0;
 		while (!$this->validProof($lastProof, $proof)){
@@ -143,7 +138,7 @@ class BlockController extends Controller
 	 *
 	 * @return bool
 	 */
-	private function validProof(int $lastProof, int $proof)
+	private function validProof($lastProof, $proof)
 	{
 		$guessHash = md5($lastProof . $proof);
 		return substr($guessHash, 2, 4) === "0000";
