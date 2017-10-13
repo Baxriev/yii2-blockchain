@@ -22,7 +22,7 @@ class m171012_174605_create_transaction_table extends Migration
             'sender' => $this->integer()->notNull()->comment('Отправитель'),
             'recipient' => $this->integer()->notNull()->comment('Получатель'),
             'amount' => $this->decimal(13,2)->notNull()->comment('Сумма'),
-            'block_id' => $this->integer()->unsigned()->notNull(),
+            'block_id' => $this->integer()->unsigned(),
         ]);
 	    $this->addCommentOnTable('transaction', 'Транзакции');
 

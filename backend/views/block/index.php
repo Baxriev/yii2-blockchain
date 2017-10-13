@@ -16,14 +16,10 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php Pjax::begin(); ?>    <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
-            ['class' => 'yii\grid\SerialColumn'],
-
             'id',
-            'timestamp',
             'proof',
             'previous_hash',
-
-            ['class' => 'yii\grid\ActionColumn'],
+	        'timestamp',
         ],
     ]); ?>
 <?php Pjax::end(); ?></div>

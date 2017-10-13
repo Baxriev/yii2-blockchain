@@ -52,7 +52,7 @@ class BlockController extends Controller
 	public function actionIndex()
 	{
 		$dataProvider = new ActiveDataProvider([
-			'query' => Block::find(),
+			'query' => Block::find()->orderBy(['id' => SORT_DESC]),
 		]);
 
 		return $this->render('index', [
