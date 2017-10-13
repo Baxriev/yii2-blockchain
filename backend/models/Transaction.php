@@ -2,7 +2,8 @@
 
 namespace backend\models;
 
-use Yii;
+use common\models\User;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "transaction".
@@ -17,7 +18,7 @@ use Yii;
  * @property User $recipient0
  * @property User $sender0
  */
-class Transaction extends \yii\db\ActiveRecord
+class Transaction extends ActiveRecord
 {
     /**
      * @inheritdoc
@@ -47,9 +48,8 @@ class Transaction extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'sender' => 'Отправитель',
-            'recipient' => 'Получатель',
+            'sender0.username' => 'Отправитель',
+            'recipient0.username' => 'Получатель',
             'amount' => 'Сумма',
             'block_id' => 'Block ID',
         ];

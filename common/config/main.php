@@ -1,8 +1,7 @@
 <?php
 return [
-	'name' => 'BlockChain',
+	'name' => 'okChain',
 	'language'=>'ru-RU',
-	'defaultRoute' => 'block',
 	'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
     'components' => [
         'cache' => [
