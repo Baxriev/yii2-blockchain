@@ -34,7 +34,7 @@ class Transaction extends ActiveRecord
     public function rules()
     {
         return [
-            [['sender', 'recipient', 'amount'], 'required'],
+            [['recipient', 'amount'], 'required'],
             [['sender', 'recipient'], 'integer'],
             [['amount'], 'number'],
             [['recipient'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['recipient' => 'id']],

@@ -68,9 +68,9 @@ class BlockController extends Controller
 	public function actionMine()
 	{
 		# We run the proof of work algorithm to get the next proof...
-		$lastBlock = Block::find()->orderBy(['id'=> SORT_DESC])->with('transactions')->one(); //todo toArray
+		$lastBlock = Block::find()->orderBy(['id'=> SORT_DESC])->with('transactions')->asArray()->one(); //todo toArray
 		//$lastBlock->transactions = Transaction::findAll(['block_id' => $lastBlock->id]);
-		$lastProof = $lastBlock->proof;
+		$lastProof = $lastBlock['proof'];
 
 		$proof = $this->proofOfWork($lastProof);
 
@@ -82,12 +82,13 @@ class BlockController extends Controller
 
 		# We must receive a reward for finding the proof.
 		# The sender is "0" to signify that this node has mined a new coin.
-		($profit = new Transaction([
-			'sender' => 0,
+		if(!($profit = new Transaction([
 			'recipient' => Yii::$app->user->id,
 			'amount' => 1,
 			'block_id' => $newBlock->id
-		]))->save();
+		]))->save()){
+			print_r($profit->errors);
+		}
 
 		Transaction::updateAll(['block_id' => $newBlock->id], ['block_id' => null]);
 
@@ -103,12 +104,8 @@ class BlockController extends Controller
 		return $response;
 	}
 
-	protected function hashBlock(Block $block) :string
+	protected function hashBlock(array $block) :string
 	{
-		print_r($block);
-		$block = ArrayHelper::toArray($block);
-		print_r($block);
-		ksort($block);
 		print_r($block);
 		$blockString = json_encode($block);
 		print_r($blockString);
