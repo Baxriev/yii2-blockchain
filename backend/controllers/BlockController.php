@@ -75,20 +75,24 @@ class BlockController extends Controller
 		$proof = $this->proofOfWork($lastProof);
 
 		# Forge the new Block by adding it to the chain
-		($newBlock = new Block([
+		$newBlock = new Block([
 			'proof' => $proof,
 			'previous_hash' => $this->hashBlock($lastBlock),
-		]))->save();
-
-		# We must receive a reward for finding the proof.
-		# The sender is "0" to signify that this node has mined a new coin.
-		$profit = new Transaction([
-			'recipient' => Yii::$app->user->id,
-			'amount' => 1,
-			'block_id' => $newBlock->id
 		]);
-		if(!$profit->save()){
-			print_r($profit->errors);
+		if($newBlock->save()){
+			# We must receive a reward for finding the proof.
+			# The sender is "0" to signify that this node has mined a new coin.
+			$profit = new Transaction([
+				'recipient' => Yii::$app->user->id,
+				'amount' => 1,
+				'block_id' => $newBlock->id
+			]);
+			if(!$profit->save()){
+				print_r($profit->errors);
+			}
+		}
+		else{
+			print_r($newBlock->errors);
 		}
 
 		Transaction::updateAll(['block_id' => $newBlock->id], ['block_id' => null]);
