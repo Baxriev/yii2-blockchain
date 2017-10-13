@@ -2,7 +2,7 @@
 
 [ -d vendor/bower ] || ln -s bower-asset vendor/bower
 php init --env=Development --overwrite=n
-mysqladmin -u root -fp321 create blockchain
+mysqladmin -u $1 -fp$2 create blockchain
 php yii migrate --interactive=0
 
 #php yii migrate/create create_block_table -f="id:primaryKey:notNull:unsigned,timestamp:timestamp:notNull:comment('Время'),proof:integer:notNull:unsigned:comment('Доказательство'),previous_hash:string(255):notNull:comment('Хеш предыдущего блока')" --interactive=0
