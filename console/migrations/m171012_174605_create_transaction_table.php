@@ -19,7 +19,7 @@ class m171012_174605_create_transaction_table extends Migration
     {
         $this->createTable('transaction', [
             'id' => $this->primaryKey()->notNull()->unsigned(),
-            'sender' => $this->integer()->notNull()->comment('Отправитель'),
+            'sender' => $this->integer()->comment('Отправитель'),
             'recipient' => $this->integer()->notNull()->comment('Получатель'),
             'amount' => $this->decimal(13,2)->notNull()->comment('Сумма'),
             'block_id' => $this->integer()->unsigned(),
