@@ -212,6 +212,6 @@ class User extends ActiveRecord implements IdentityInterface
 	 * @return float
 	 */
 	public function getBalance(){
-    	return $this->getTransactions()->sum('amount')?:0 - $this->getTransactions0()->sum('amount')?:0;
+    	return $this->getTransactions()->sum('amount')?:0 - ($this->getTransactions0()->sum('amount')?:0);
     }
 }
