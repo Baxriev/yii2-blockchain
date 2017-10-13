@@ -70,7 +70,7 @@ class BlockController extends Controller
 		# We run the proof of work algorithm to get the next proof...
 		$lastBlock = Block::find()->orderBy(['id'=> SORT_DESC])->with('transactions')->asArray()->one(); //todo toArray
 		//$lastBlock->transactions = Transaction::findAll(['block_id' => $lastBlock->id]);
-		$lastProof = $lastBlock['proof'];
+		$lastProof = (int) $lastBlock['proof'];
 
 		$proof = $this->proofOfWork($lastProof);
 
