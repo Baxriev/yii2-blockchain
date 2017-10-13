@@ -109,7 +109,12 @@ class BlockController extends Controller
 		return $response;
 	}
 
-	protected function hashBlock(array $block) :string
+	/**
+	 * @param array $block
+	 *
+	 * @return string
+	 */
+	protected function hashBlock(array $block)
 	{
 		print_r($block);
 		$blockString = json_encode($block);
@@ -117,7 +122,12 @@ class BlockController extends Controller
 		return md5($blockString);
 	}
 
-	protected function proofOfWork(int $lastProof) :int
+	/**
+	 * @param int $lastProof
+	 *
+	 * @return int
+	 */
+	protected function proofOfWork(int $lastProof)
 	{
 		$proof = 0;
 		while (!$this->validProof($lastProof, $proof)){
@@ -127,7 +137,13 @@ class BlockController extends Controller
 		return $proof;
 	}
 
-	private function validProof(int $lastProof, int $proof) :bool
+	/**
+	 * @param int $lastProof
+	 * @param int $proof
+	 *
+	 * @return bool
+	 */
+	private function validProof(int $lastProof, int $proof)
 	{
 		$guessHash = md5($lastProof . $proof);
 		return substr($guessHash, 2, 4) === "0000";
