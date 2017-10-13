@@ -40,6 +40,6 @@
         "post-install-cmd" : [
             "@fullInstallProject"
         ],
-        "fullInstallProject" : "./install.sh"
+        "fullInstallProject" : "./install.sh root 321"
     }
 }
