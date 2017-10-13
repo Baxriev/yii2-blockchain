@@ -82,11 +82,12 @@ class BlockController extends Controller
 
 		# We must receive a reward for finding the proof.
 		# The sender is "0" to signify that this node has mined a new coin.
-		if(!($profit = new Transaction([
+		$profit = new Transaction([
 			'recipient' => Yii::$app->user->id,
 			'amount' => 1,
 			'block_id' => $newBlock->id
-		]))->save()){
+		]);
+		if(!$profit->save()){
 			print_r($profit->errors);
 		}
 
