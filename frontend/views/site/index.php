@@ -12,7 +12,7 @@ $loggedIn = !Yii::$app->user->isGuest;
 
         <p class="lead"><?= $loggedIn ? 'Now you can go to' : 'You have successfully install '. Yii::$app->name .' app.' ?></p>
 
-        <p><a class="btn btn-lg" href="<?= $loggedIn ? $this->params['backendUrl'] : \yii\helpers\Url::to('site/signup') ?>"><?= $loggedIn ? 'At first you must to sign up your node' : 'backend' ?></a></p>
+        <p><a class="btn btn-lg btn-success" href="<?= $loggedIn ? Yii::$app->params['backendUrl'] : \yii\helpers\Url::to('site/signup') ?>"><?= $loggedIn ? 'backend' : 'At first you must to sign up your node' ?></a></p>
     </div>
 
     <div class="body-content">
