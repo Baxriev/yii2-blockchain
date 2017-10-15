@@ -18,10 +18,10 @@
  */
 return [
     'Blocks chain' => 'Цепь',
-    'Create' => '',
-    'Create Node' => '',
-    'Create Transaction' => '',
-    'Mine Block' => '',
+    'Create' => 'Создать',
+    'Create Node' => 'Новый узел',
+    'Create Transaction' => 'Отправить денег',
+    'Mine Block' => 'Майнить',
     'New transaction for block#' => 'Новая транзакция для блока ',
     'Nodes' => 'Узлы',
     'Transactions' => 'Транзакции',
