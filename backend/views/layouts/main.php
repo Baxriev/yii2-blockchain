@@ -43,11 +43,11 @@ AppAsset::register($this);
     if ($user->isGuest) {
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
     } else {
-	    $menuItems[] = ['label' => 'Цепь', 'url' => ['/block']];
-        $menuItems[] = ['label' => 'Транзакции', 'url' => ['/transaction']];
+	    $menuItems[] = ['label' => 'Blocks chain', 'url' => ['/block']];
+        $menuItems[] = ['label' => 'Transactions', 'url' => ['/transaction']];
 	    $userModel = $user->identity;
 	    if ($userModel->status == User::STATUS_ADMIN) {
-		    $menuItems[] = ['label' => 'Узлы', 'url' => ['/user']];
+		    $menuItems[] = ['label' => 'Nodes', 'url' => ['/user']];
 	    }
 	    $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post')

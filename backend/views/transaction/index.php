@@ -6,7 +6,7 @@ use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = Yii::t('app', 'Транзакции');
+$this->title = Yii::t('app', 'Transactions');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="transaction-index">

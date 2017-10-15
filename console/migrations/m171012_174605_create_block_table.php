@@ -19,7 +19,7 @@ class m171012_174605_create_block_table extends Migration
             'timestamp' => $this->timestamp()->notNull()->comment('Время'),//->defaultExpression('CURRENT'),
         ]);
 
-	    $this->addCommentOnTable('block', 'Цепь');
+	    $this->addCommentOnTable('block', 'Blocks chain');
 
 	    $this->insert('block', ['previous_hash' => 1, 'proof' => 100]);
     }

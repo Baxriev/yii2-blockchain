@@ -2,16 +2,16 @@
 
 /* @var $this yii\web\View */
 
-$this->title = 'My Yii Application';
+$this->title = 'My Yii2 ' . Yii::$app->name;
 ?>
 <div class="site-index">
 
     <div class="jumbotron">
         <h1>Congratulations!</h1>
 
-        <p class="lead">You have successfully created your Yii-powered application.</p>
+        <p class="lead">You have successfully install <?= Yii::$app->name ?> app.</p>
 
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
+        <p><a class="btn btn-lg btn-success" href="<?= \yii\helpers\Url::to('site/signup') ?>">At first you must to sign up you node</a></p>
     </div>
 
     <div class="body-content">
