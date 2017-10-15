@@ -1,20 +1,18 @@
-Yii 2 Advanced Project Template
-===============================
+Yii 2 BlockChain Project
+========================
 
-Yii 2 Advanced Project Template is a skeleton [Yii 2](http://www.yiiframework.com/) application best for
-developing complex Web applications with multiple tiers.
-
-The template includes three tiers: front end, back end, and console, each of which
+It's a php port of [great project](https://github.com/dvf/blockchain) on python
+facilitating understanding blockChain technology
+implemented on the Yii2 Framework and based on Yii2 Advanced Project Template, which
+includes three tiers: front end, back end, and console, each of which
 is a separate Yii application.
 
-The template is designed to work in a team development environment. It supports
-deploying the application in different environments.
+- Backend is the web interface.
+- Frontend is prospective api.
+- Console represent same features by cli interface. 
+  
+Description and documentation coming soon, and personally project still under construction..
 
-Documentation is at [docs/guide/README.md](docs/guide/README.md).
-
-[![Latest Stable Version](https://poser.pugx.org/yiisoft/yii2-app-advanced/v/stable.png)](https://packagist.org/packages/yiisoft/yii2-app-advanced)
-[![Total Downloads](https://poser.pugx.org/yiisoft/yii2-app-advanced/downloads.png)](https://packagist.org/packages/yiisoft/yii2-app-advanced)
-[![Build Status](https://travis-ci.org/yiisoft/yii2-app-advanced.svg?branch=master)](https://travis-ci.org/yiisoft/yii2-app-advanced)
 
 DIRECTORY STRUCTURE
 -------------------
