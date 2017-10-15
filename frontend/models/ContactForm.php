@@ -2,6 +2,7 @@
 
 namespace frontend\models;
 
+use common\models\User;
 use Yii;
 use yii\base\Model;
 
@@ -16,7 +17,6 @@ class ContactForm extends Model
     public $body;
     public $verifyCode;
 
-
     /**
      * @inheritdoc
      */
@@ -24,7 +24,7 @@ class ContactForm extends Model
     {
         return [
             // name, email, subject and body are required
-            [['name', 'email', 'subject', 'body'], 'required'],
+            [['name', 'email', /*'subject',*/ 'body'], 'required'],
             // email has to be a valid email address
             ['email', 'email'],
             // verifyCode needs to be entered correctly
@@ -32,7 +32,17 @@ class ContactForm extends Model
         ];
     }
 
-    /**
+    public function beforeValidate() {
+    	if(!Yii::$app->user->isGuest){
+		    /** @var User $user */
+		    $user = Yii::$app->user->identity;
+    		$this->name = $user->username;
+    		$this->email = $user->email;
+	    }
+	    return parent::beforeValidate();
+    }
+
+	/**
      * @inheritdoc
      */
     public function attributeLabels()
