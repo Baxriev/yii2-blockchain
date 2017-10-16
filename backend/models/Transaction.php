@@ -3,6 +3,7 @@
 namespace backend\models;
 
 use common\models\User;
+use Yii;
 use yii\db\ActiveRecord;
 
 /**
@@ -48,10 +49,9 @@ class Transaction extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'sender0.username' => 'Отправитель',
-            'recipient0.username' => 'Получатель',
-            'amount' => 'Сумма',
-            'block_id' => 'Block ID',
+            'sender0.username' => Yii::t('app', 'Sender'),
+            'recipient0.username' => Yii::t('app', 'Recipient'),
+            'amount' => Yii::t('app', 'Amount'),
         ];
     }
 

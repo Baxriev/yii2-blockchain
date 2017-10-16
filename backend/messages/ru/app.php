@@ -17,6 +17,7 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'Amount' => 'Сумма',
     'Blocks chain' => 'Цепь',
     'Create' => 'Создать',
     'Create Node' => 'Новый узел',
@@ -24,6 +25,11 @@ return [
     'Mine Block' => 'Майнить',
     'New transaction for block#' => 'Новая транзакция для блока ',
     'Nodes' => 'Узлы',
+    'Previous hash' => 'Хеш предыдущего блока',
+    'Proof' => 'Доказательство',
+    'Recipient' => 'Получатель',
+    'Sender' => 'Отправитель',
+    'Time' => 'Время',
     'Transactions' => 'Транзакции',
     'Update' => '',
 ];

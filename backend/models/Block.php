@@ -2,6 +2,7 @@
 
 namespace backend\models;
 
+use Yii;
 use yii\db\ActiveRecord;
 
 /**
@@ -43,10 +44,9 @@ class Block extends ActiveRecord
     public function attributeLabels()
     {
         return [
-            'id' => 'ID',
-            'timestamp' => 'Время',
-            'proof' => 'Доказательство',
-            'previous_hash' => 'Хеш предыдущего блока',
+            'timestamp' => Yii::t('app', 'Time'),
+            'proof' => Yii::t('app', 'Proof'),
+            'previous_hash' => Yii::t('app', 'Previous hash'),
         ];
     }
 
