@@ -4,13 +4,17 @@ Yii 2 BlockChain Project
 It's a php port of [great project](https://github.com/dvf/blockchain) on python
 facilitating understanding blockChain technology
 implemented on the Yii2 Framework and based on Yii2 Advanced Project Template, which
-includes three tiers: front end, back end, and console, each of which
+includes four tiers: front end, back end, api, and console, each of which
 is a separate Yii application.
 
-- Backend is the web interface.
-- Frontend is prospective api.
-- Console represent same features by cli interface. 
-  
+- Frontend is for info, register and contact.
+- Backend is the general web interface of app.
+- Console will represent same features by cli interface in future.
+- In Api will be same features by http requesting.
+
+You can preview it without installing:
+Demo frontend: http://www.okChain.ru, after register your node you'll be redirected to [backend](http://www.okChain.ru)
+
 Description and documentation coming soon, and personally project still under construction..
 
 
